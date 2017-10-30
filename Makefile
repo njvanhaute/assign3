@@ -2,9 +2,9 @@ CC=gcc
 CFLAGS=-Wall -Wextra -c
 LDFLAGS=
 
-SRCS=main.c bst.c queue.c cda.c
+SRCS=main.c da.c set.c 
 OBJS=$(SRCS:.c=.o)
-EXEC=bstrees
+EXEC=kruskal
 
 all : $(EXEC) $(SRCS)
 
