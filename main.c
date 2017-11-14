@@ -4,9 +4,12 @@
 
 int main(void) {
     SET *d = newSET(displayINTEGER);
-    int nums[4] = {0, 0, 0, 0};
-    for (int i = 1; i < 4; i++) {
-        nums[i] = makeSET(d, newINTEGER(i));
-    }    
+    int u = makeSET(d,newINTEGER(4)); int v = makeSET(d,newINTEGER(8));
+    int w = makeSET(d,newINTEGER(3)); int x = makeSET(d,newINTEGER(1));
+    makeSET(d,newINTEGER(7)); makeSET(d,newINTEGER(9));
+    unionSET(d,u,v);
+    unionSET(d,w,x);
+    unionSET(d,v,x);
+    displaySET(stdout,d);
     return 0;
 }

@@ -101,7 +101,7 @@ static void link(SETNODE *x, SETNODE *y) {
 
 static void printChain(FILE *fp, SETNODE *node) {
     while (node != node->parent) {
-        node->display(fp, node->value);
+        displaySETNODE(fp, node); 
         fprintf(fp, " ");
         node = node->parent;
     }
