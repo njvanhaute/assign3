@@ -74,6 +74,7 @@ void displayQUEUE(FILE *fp, QUEUE *items) {
 // Function: visualizeQUEUE
 // Takes in a file pointer and a queue object.
 // Calls the display function of the underlying data structure (CDA)
+
 void visualizeQUEUE(FILE *fp, QUEUE *items) {
     displayCDA(fp, items->cda);
 }
