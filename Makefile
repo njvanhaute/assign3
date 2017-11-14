@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS=-Wall -Wextra -c
 LDFLAGS=
 
-SRCS=main.c
+SRCS=main.c cda.c da.c integer.c set.c queue.c
 OBJS=$(SRCS:.c=.o)
 EXEC=kruskal
 
