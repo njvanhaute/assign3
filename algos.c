@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "edge.h"
 #include "algos.h"
+#include "edge.h"
 #include "integer.h"
 #include "utils.h"
 

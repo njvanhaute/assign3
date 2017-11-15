@@ -17,16 +17,13 @@ int main(int argc, char **argv) {
     SET *vertexSET = newSET(displayINTEGER);
     RBT *edgeRBT = newRBT(displayEDGE, compareVertices); 
     DA *edgeDA = newDA(displayEDGE);
-
     int maxVertex = readEdges(graphFP, edgeRBT, edgeDA);
     int edgeArraySize = sizeDA(edgeDA);
     void **edgeArray = extractDA(edgeDA);
     int *vertexArray = (int *)malloc(sizeof(int) * (maxVertex + 1));
     initArray(vertexArray, maxVertex + 1, EMPTY); 
-    
     mergeSort(edgeArray, edgeArraySize, compareWeight);
-    makeAllSets(edgeArray, vertexArray, edgeArraySize, vertexSET);
-    
+    makeAllSets(edgeArray, vertexArray, edgeArraySize, vertexSET);    
     DA *teaDA = kruskal(edgeArray, edgeArraySize, vertexArray, vertexSET);
     int teaSize = sizeDA(teaDA);
     void **tea = extractDA(teaDA); 
@@ -40,6 +37,5 @@ int main(int argc, char **argv) {
         int vl = getVl(tea[i]);
         insertDA(adjList[vl], tea[i]);
     }
-    
     return 0;
 }

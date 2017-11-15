@@ -1,8 +1,8 @@
 #ifndef __EDGE_INCLUDED__
 #define __EDGE_INCLUDED__
 
-#include "rbt.h"
 #include "da.h"
+#include "rbt.h"
 
 typedef struct edge EDGE;
 
