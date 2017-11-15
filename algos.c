@@ -18,6 +18,7 @@ void mergeSort(void **arr, int n, int (*compare)(void *, void *)) {
         }
         copyArray(work, arr, n);
     }
+    free(work);
 }
 
 void makeAllSets(void **edgeArray, int *vertexArray, int edgeArraySize, SET *set) {
