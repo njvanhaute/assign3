@@ -1,21 +1,31 @@
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "algos.h"
 #include "args.h"
 #include "da.h"
 #include "edge.h"
 #include "integer.h"
 #include "rbt.h"
 #include "set.h"
-#include "sort.h"
+#include "utils.h"
 
-#define N 1000000
+#define EMPTY -1
 
 int main(int argc, char **argv) {  
-    FILE *graphFP = openGraphFile(argc, argv);        
-    RBT *edgeRBT = newRBT(displayEDGE, compareEDGE); 
+    FILE *graphFP = openGraphFile(argc, argv);
+    SET *vertexSET = newSET(displayINTEGER);
+    RBT *edgeRBT = newRBT(displayEDGE, compareVertices); 
     DA *edgeDA = newDA(displayEDGE);
-    int maxVl = readEdges(graphFP, edgeRBT, edgeDA); 
-    printf("Max vl = %d\n", maxVl);
+    int maxVertex = readEdges(graphFP, edgeRBT, edgeDA);
+    int edgeArraySize = sizeDA(edgeDA);
+    void **edgeArray = extractDA(edgeDA);
+    int *vertexArray = (int *)malloc(sizeof(int) * (maxVertex + 1));
+    initArray(vertexArray, maxVertex + 1, EMPTY); 
+    mergeSort(edgeArray, edgeArraySize, compareWeight);
+    makeAllSets(edgeArray, vertexArray, edgeArraySize, vertexSET);
+    DA *teaDA = kruskal(edgeArray, edgeArraySize, vertexArray, vertexSET);
+    int teaSize = sizeDA(teaDA);
+    void **tea = extractDA(teaDA);
     return 0;
 }

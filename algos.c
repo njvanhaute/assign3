@@ -1,6 +1,11 @@
+#include <stdio.h>
 #include <stdlib.h>
-#include "sort.h"
+#include "edge.h"
+#include "algos.h"
+#include "integer.h"
 #include "utils.h"
+
+#define EMPTY -1
 
 static void bottomUpMerge(void **, void **, int, int, int, int (*)(void *, void *));
 static void copyArray(void **, void **, int);
@@ -13,6 +18,32 @@ void mergeSort(void **arr, int n, int (*compare)(void *, void *)) {
         }
         copyArray(work, arr, n);
     }
+}
+
+void makeAllSets(void **edgeArray, int *vertexArray, int edgeArraySize, SET *set) {
+    for (int i = 0; i < edgeArraySize; i++) {
+        int vl = getVl(edgeArray[i]);
+        int vh = getVh(edgeArray[i]);
+        if (vertexArray[vl] == EMPTY) {
+            vertexArray[vl] = makeSET(set, newINTEGER(vl));
+        }
+        if (vertexArray[vh] == EMPTY) {
+            vertexArray[vh] = makeSET(set, newINTEGER(vh));
+        }
+    } 
+}
+
+DA *kruskal(void **edgeArray, int edgeArraySize, int *vertexArray, SET *set) {
+    DA *tea = newDA(displayEDGE);
+    for (int i = 0; i < edgeArraySize; i++) {
+        int u = getVl(edgeArray[i]);
+        int v = getVh(edgeArray[i]);
+        if (findSET(set, vertexArray[u]) != findSET(set, vertexArray[v])) {
+            insertDA(tea, edgeArray[i]);
+            unionSET(set, vertexArray[u], vertexArray[v]);
+        }                
+    }
+    return tea;
 }
 
 static void bottomUpMerge(void **arr, void **work, int l, int r, int end, int (*compare)(void *, void *)) {

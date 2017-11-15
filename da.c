@@ -78,8 +78,9 @@ void unionDA(DA *recipient, DA *donor) {
 //     index.
 // Returns the specified void pointer
 
-void *getDA(DA *items, int index) {
-    assert(index >= 0 && index < items->size);
+void *getDA(DA *items, int index) { 
+    assert(index >= 0);
+    assert(index < items->size);
     return items->arr[index];
 }
 

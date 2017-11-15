@@ -18,14 +18,14 @@ EDGE *newEDGE(int vl, int vh, int weight) {
 
 int readEdges(FILE *fp, RBT *rbt, DA *da) {
     int vl = readInt(fp);
-    int maxVl = -1;
+    int maxVertex = -1;
     while (!feof(fp)) {
         int vh = readInt(fp);
         if (vl > vh) {
             swap(&vl, &vh);
         }
-        if (vl > maxVl) {
-            maxVl = vl;
+        if (vh > maxVertex) {
+            maxVertex = vh;
         }
         char *weightStr = readToken(fp);
         int weight = atoi(weightStr);
@@ -51,7 +51,7 @@ int readEdges(FILE *fp, RBT *rbt, DA *da) {
         free(weightStr);
         vl = readInt(fp);
     }
-    return maxVl;
+    return maxVertex;
 }
 
 void displayEDGE(FILE *fp, void *value) {
@@ -59,7 +59,7 @@ void displayEDGE(FILE *fp, void *value) {
     fprintf(fp, "(%d,%d,%d)", edge->vl, edge->vh, edge->weight);
 }
 
-int compareEDGE(void *a, void *b) {
+int compareVertices(void *a, void *b) {
     EDGE *edgeA = a;
     EDGE *edgeB = b;
     int result = 0;
@@ -70,4 +70,30 @@ int compareEDGE(void *a, void *b) {
         result = edgeA->vh - edgeB->vh;
     }
     return result;
+}
+
+int compareWeight(void *a, void *b) {
+    EDGE *edgeA = a;
+    EDGE *edgeB = b;
+    int result = 0;
+    if (edgeA->weight != edgeB->weight) {
+        result = edgeA->weight - edgeB->weight;
+    }
+    else if (edgeA->vl != edgeB->vl) {
+        result = edgeA->vl - edgeB->vl;
+    }
+    else {
+        result = edgeA->vh - edgeB->vh;
+    }
+    return result;
+}
+
+int getVl(void *e) {
+    EDGE *edge = e;
+    return edge->vl;
+}
+
+int getVh(void *e) {
+    EDGE *edge = e;
+    return edge->vh;
 }

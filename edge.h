@@ -9,6 +9,9 @@ typedef struct edge EDGE;
 extern EDGE *newEDGE(int, int, int);
 extern int readEdges(FILE *, RBT *, DA *);
 extern void displayEDGE(FILE *, void *);
-extern int compareEDGE(void *, void *);
+extern int compareVertices(void *, void *);
+extern int compareWeight(void *, void *);
+extern int getVl(void *);
+extern int getVh(void *);
 
 #endif
