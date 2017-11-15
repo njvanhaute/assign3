@@ -97,3 +97,8 @@ int getVh(void *e) {
     EDGE *edge = e;
     return edge->vh;
 }
+
+int getWeight(void *e) {
+    EDGE *edge = e;
+    return edge->weight;
+}

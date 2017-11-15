@@ -13,5 +13,6 @@ extern int compareVertices(void *, void *);
 extern int compareWeight(void *, void *);
 extern int getVl(void *);
 extern int getVh(void *);
+extern int getWeight(void *);
 
 #endif
