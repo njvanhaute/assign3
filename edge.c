@@ -37,8 +37,17 @@ int readEdges(FILE *fp, RBT *rbt, DA *da) {
             weightStr = readToken(fp);
         }
         EDGE *edge = newEDGE(vl, vh, weight);
-        insertRBT(rbt, edge);
-        insertDA(da, edge);
+        EDGE *search = findRBT(rbt, edge);
+        if (search == NULL) {
+            insertRBT(rbt, edge);
+            insertDA(da, edge);
+        }
+        else {
+            if (edge->weight < search->weight) {
+                search->weight = edge->weight;
+            }
+            free(edge);
+        }
         free(weightStr);
         vl = readInt(fp);
     }
@@ -54,10 +63,7 @@ int compareEDGE(void *a, void *b) {
     EDGE *edgeA = a;
     EDGE *edgeB = b;
     int result = 0;
-    if (edgeA->weight != edgeB->weight) {
-        result = edgeA->weight - edgeB->weight;
-    }
-    else if (edgeA->vl != edgeB->vl) {
+    if (edgeA->vl != edgeB->vl) {
         result = edgeA->vl - edgeB->vl;
     }
     else {

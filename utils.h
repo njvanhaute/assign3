@@ -1,6 +1,7 @@
 #ifndef __UTILS_INCLUDED__
 #define __UTILS_INCLUDED__
 
-void swap(int *, int *);
+extern void swap(int *, int *);
+extern int min(int, int);
 
 #endif

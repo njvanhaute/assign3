@@ -9,7 +9,7 @@ extern RBT *newRBT(
         void (*)(FILE *,void *),           //display
         int (*)(void *,void *));           //comparator
 extern void insertRBT(RBT *,void *);
-extern int findRBT(RBT *,void *);
+extern void *findRBT(RBT *,void *);
 extern void deleteRBT(RBT *,void *);
 extern int sizeRBT(RBT *);
 extern int wordsRBT(RBT *);

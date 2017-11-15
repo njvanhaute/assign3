@@ -5,3 +5,7 @@ void swap(int *a, int *b) {
     *a = *b;
     *b = temp;
 }
+
+int min(int a, int b) {
+    return a < b ? a : b;
+}

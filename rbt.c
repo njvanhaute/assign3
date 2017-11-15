@@ -64,12 +64,12 @@ void insertRBT(RBT *r, void *value) {
     r->freqTotal += 1;
 }
 
-int findRBT(RBT *r, void *value) {
+void *findRBT(RBT *r, void *value) {
     RBTVALUE *rbtval = newRBTVALUE(r, value);
     BSTNODE *searchNode = findBST(r->bst, rbtval);
     if (searchNode == 0) return 0;
     RBTVALUE *searchVal = getBSTNODE(searchNode);
-    return searchVal->freq;
+    return searchVal->value;
 }
 
 void deleteRBT(RBT *r, void *value) {
