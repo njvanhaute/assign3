@@ -1,18 +1,19 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include "args.h"
+#include "da.h"
+#include "edge.h"
 #include "integer.h"
+#include "rbt.h"
 #include "set.h"
 
-int main(void) {
-    SET *d = newSET(displayINTEGER);
-    int u = makeSET(d,newINTEGER(4));
-    int v = makeSET(d,newINTEGER(8));
-    int w = makeSET(d,newINTEGER(3));
-    int x = makeSET(d,newINTEGER(1));
-    makeSET(d,newINTEGER(7));
-    makeSET(d,newINTEGER(9));
-    unionSET(d,u,v);
-    unionSET(d,w,x);
-    unionSET(d,v,x);
-    displaySET(stdout,d);
+int main(int argc, char **argv) {  
+    FILE *graphFP = openGraphFile(argc, argv);        
+    RBT *edgeRBT = newRBT(displayEDGE, compareEDGE); 
+    DA *edgeDA = newDA(displayEDGE);
+    readEdges(graphFP, edgeRBT, edgeDA);
+    displayRBT(stdout, edgeRBT);
+    displayDA(stdout, edgeDA);
+    printf("\n"); 
     return 0;
 }
