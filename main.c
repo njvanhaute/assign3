@@ -1,16 +1,13 @@
-#include <time.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include "algos.h"
 #include "args.h"
 #include "da.h"
 #include "edge.h"
 #include "integer.h"
-#include "queue.h"
 #include "rbt.h"
 #include "set.h"
-#include "stack.h"
 #include "utils.h"
+
 
 #define EMPTY -1
 

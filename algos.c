@@ -13,6 +13,9 @@
 static void bottomUpMerge(void **, void **, int, int, int, int (*)(void *, void *));
 static void copyArray(void **, void **, int);
 
+// Bottom up implementation of merge sort
+// Takes in an array of generic values, the size of the array, and a callback function to compare the generic type stored in the array
+
 void mergeSort(void **arr, int n, int (*compare)(void *, void *)) {
     void **work = (void **)malloc(sizeof(void *) * n);
     for (int width = 1; width < n; width *= 2) {
@@ -24,6 +27,7 @@ void mergeSort(void **arr, int n, int (*compare)(void *, void *)) {
     free(work);
 }
 
+// Makes a singleton set for each vertex
 void makeAllSets(void **edgeArray, int *vertexArray, int edgeArraySize, SET *set) {
     for (int i = 0; i < edgeArraySize; i++) {
         int vl = getVl(edgeArray[i]);
@@ -37,6 +41,7 @@ void makeAllSets(void **edgeArray, int *vertexArray, int edgeArraySize, SET *set
     } 
 }
 
+// Runs Kruskal's algorithm on the array of edges and returns a dynamic array containing the minimum spanning tree edges
 DA *kruskal(void **edgeArray, int edgeArraySize, int *vertexArray, SET *set) {
     DA *tea = newDA(displayEDGE);
     for (int i = 0; i < edgeArraySize; i++) {
@@ -50,6 +55,7 @@ DA *kruskal(void **edgeArray, int edgeArraySize, int *vertexArray, SET *set) {
     return tea;
 }
 
+// Generates an adjacency list of the edges in the minimum spanning tree
 DA **buildAdjList(void **arr, int size, int teaSize) {
     DA **adjList = (DA **)malloc(sizeof(DA *) * (size));
     for (int i = 0; i < size; i++) {
@@ -66,6 +72,7 @@ DA **buildAdjList(void **arr, int size, int teaSize) {
     return adjList;
 }
 
+// Runs breadth-first search on the MST adjacency list
 void BFS(FILE *fp, DA **adjList, int n) {
     bool *visited = (bool *)malloc(sizeof(bool) * n);
     for (int i = 0; i < n; i++) {
@@ -119,6 +126,7 @@ void BFS(FILE *fp, DA **adjList, int n) {
     }
 }
 
+// Helper function for merge sort
 static void bottomUpMerge(void **arr, void **work, int l, int r, int end, int (*compare)(void *, void *)) {
     int i = l, j = r;
     for (int k = l; k < end; k++) {
@@ -133,6 +141,7 @@ static void bottomUpMerge(void **arr, void **work, int l, int r, int end, int (*
     }
 }
 
+// Also a helper function for merge sort
 static void copyArray(void **work, void **arr, int n) {
     for (int i = 0; i < n; i++) {
         arr[i] = work[i];

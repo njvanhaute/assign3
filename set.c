@@ -18,7 +18,7 @@ typedef struct setnode {
 
 static SETNODE *newSETNODE(void (*d)(FILE *, void *), void *value);
 static void displaySETNODE(FILE *fp, void *node);
-static void link(SETNODE *x, SETNODE *y);
+static void setLink(SETNODE *x, SETNODE *y);
 static void printChain(FILE *fp, SETNODE *node);
 
 // Function: newSET
@@ -69,7 +69,7 @@ int unionSET(SET *d, int index1, int index2) {
     if (x == y) {
         return 0;
     }
-    link(x, y);
+    setLink(x, y);
     d->numReps -= 1;
     return 1;    
 }
@@ -112,7 +112,7 @@ static void displaySETNODE(FILE *fp, void *node) {
     setnode->display(fp, setnode->value);
 }
 
-static void link(SETNODE *x, SETNODE *y) {
+static void setLink(SETNODE *x, SETNODE *y) {
     if (x->rank > y->rank) {
         y->parent = x;
     }
