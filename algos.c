@@ -1,8 +1,11 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "algos.h"
 #include "edge.h"
 #include "integer.h"
+#include "queue.h"
+#include "stack.h"
 #include "utils.h"
 
 #define EMPTY -1
@@ -45,6 +48,75 @@ DA *kruskal(void **edgeArray, int edgeArraySize, int *vertexArray, SET *set) {
         }                
     }
     return tea;
+}
+
+DA **buildAdjList(void **arr, int size, int teaSize) {
+    DA **adjList = (DA **)malloc(sizeof(DA *) * (size));
+    for (int i = 0; i < size; i++) {
+        adjList[i] = newDA(displayEDGE);
+    }
+    for (int i = 0; i < teaSize; i++) {
+        int vl = getVl(arr[i]);
+        int vh = getVh(arr[i]);
+        int weight = getWeight(arr[i]);
+        insertDA(adjList[vl], arr[i]);
+        EDGE *edge = newEDGE(vh, vl, weight);
+        insertDA(adjList[vh], edge);
+    }
+    return adjList;
+}
+
+void BFS(FILE *fp, DA **adjList, int n) {
+    bool *visited = (bool *)malloc(sizeof(bool) * n);
+    for (int i = 0; i < n; i++) {
+        visited[i] = false;
+    }
+    for (int i = 0; i < n; i++) {
+        if (sizeDA(adjList[i]) > 0 && !visited[i]) {
+            unsigned long long totalWeight = 0;
+            QUEUE *vertexQueue = newQUEUE(displayINTEGER);
+            QUEUE *parentQueue = newQUEUE(displayINTEGER);
+            QUEUE *weightQueue = newQUEUE(displayINTEGER);
+            visited[i] = true;
+            enqueue(vertexQueue, newINTEGER(i)); 
+            int level = 0;
+            while (sizeQUEUE(vertexQueue) > 0) {
+                int levelNodes = sizeQUEUE(vertexQueue);
+                fprintf(fp, "%d: ", level);
+                while (levelNodes > 0) {
+                    int s = getINTEGER(dequeue(vertexQueue)); 
+                    if (level == 0) {
+                        fprintf(fp, "%d", s);
+                    }
+                    else {
+                        int parent = getINTEGER(dequeue(parentQueue));
+                        int weight = getINTEGER(dequeue(weightQueue));
+                        fprintf(fp, "%d(%d)%d", s, parent, weight);
+                        if (levelNodes > 1) {
+                            fprintf(fp, " ");
+                        }
+                        totalWeight += weight;  
+                    }
+                    for (int j = 0; j < sizeDA(adjList[s]); j++) {
+                        EDGE *edge = getDA(adjList[s], j);
+                        int vh = getVh(edge);
+                        int weight = getWeight(edge);
+                        if (!visited[vh]) {
+                            visited[vh] = true;
+                            enqueue(vertexQueue, newINTEGER(vh));
+                            enqueue(parentQueue, newINTEGER(s));
+                            enqueue(weightQueue, newINTEGER(weight));
+                        }
+                        
+                    }
+                    levelNodes--;
+                }
+                level++;
+                fprintf(fp, "\n");
+            }
+            fprintf(fp, "total weight: %llu\n----\n", totalWeight);
+        }
+    }
 }
 
 static void bottomUpMerge(void **arr, void **work, int l, int r, int end, int (*compare)(void *, void *)) {

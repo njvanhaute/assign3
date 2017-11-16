@@ -6,14 +6,15 @@
 #include "da.h"
 #include "edge.h"
 #include "integer.h"
+#include "queue.h"
 #include "rbt.h"
 #include "set.h"
+#include "stack.h"
 #include "utils.h"
 
 #define EMPTY -1
 
-int main(int argc, char **argv) {  
-    clock_t begin = clock();
+int main(int argc, char **argv) {   
     FILE *graphFP = openGraphFile(argc, argv);
     SET *vertexSET = newSET(displayINTEGER);
     RBT *edgeRBT = newRBT(displayEDGE, compareVertices); 
@@ -24,28 +25,13 @@ int main(int argc, char **argv) {
     void **edgeArray = extractDA(edgeDA);
     int *vertexArray = (int *)malloc(sizeof(int) * (maxVertex + 1));
     initArray(vertexArray, maxVertex + 1, EMPTY); 
-    mergeSort(edgeArray, edgeArraySize, compareWeight);
-    for (int i = 0; i < edgeArraySize; i++) {
-        displayEDGE(stdout, edgeArray[i]);
-        printf(" ");
-    }
-    printf("\n");
+    mergeSort(edgeArray, edgeArraySize, compareWeight); 
     makeAllSets(edgeArray, vertexArray, edgeArraySize, vertexSET);    
     DA *teaDA = kruskal(edgeArray, edgeArraySize, vertexArray, vertexSET);
     int teaSize = sizeDA(teaDA);
     void **tea = extractDA(teaDA); 
-    mergeSort(tea, teaSize, compareVertices);
-    int maxVl = getVl(tea[teaSize - 1]);
-    DA **adjList = (DA **)malloc(sizeof(DA *) * (maxVl + 1));
-    for (int i = 0; i < maxVl + 1; i++) {
-        adjList[i] = newDA(displayEDGE);
-    }
-    /*for (int i = 0; i < teaSize; i++) {
-        int vl = getVl(tea[i]);
-        insertDA(adjList[vl], tea[i]);
-    }*/
-    clock_t end = clock();
-    double time_spent = (end - begin) / CLOCKS_PER_SEC;
-    printf("Time spent: %lf secs\n", time_spent);
+    mergeSort(tea, teaSize, compareVertices); 
+    DA **adjList = buildAdjList(tea, maxVertex + 1, teaSize); 
+    BFS(stdout, adjList, maxVertex + 1);
     return 0;
 }
