@@ -1,3 +1,4 @@
+#include <time.h>
 #include <stdlib.h>
 #include "algos.h"
 #include "args.h"
@@ -8,10 +9,9 @@
 #include "set.h"
 #include "utils.h"
 
-
 #define EMPTY -1
 
-int main(int argc, char **argv) {   
+int main(int argc, char **argv) {    
     FILE *graphFP = openGraphFile(argc, argv);
     SET *vertexSET = newSET(displayINTEGER);
     RBT *edgeRBT = newRBT(displayEDGE, compareVertices); 

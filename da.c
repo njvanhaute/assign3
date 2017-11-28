@@ -189,3 +189,7 @@ static void reduceCap(DA *items) {
     free(items->arr);
     items->arr = newArr;   
 }
+
+int testing(int a, int b) {
+    return a + b;
+}

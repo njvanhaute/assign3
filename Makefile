@@ -21,4 +21,4 @@ clean :
 	rm -f $(EXEC) $(OBJS)
 
 test : $(EXEC)
-	./$(EXEC) tests/bigGraph
+	./$(EXEC) tests/g2

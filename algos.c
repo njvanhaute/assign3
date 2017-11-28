@@ -10,9 +10,16 @@
 
 #define EMPTY -1
 
+typedef struct vpw {
+    int vertex;
+    int parent;
+    int weight;
+} VPW;
+
+static VPW *newVPW(int, int, int);
 static void bottomUpMerge(void **, void **, int, int, int, int (*)(void *, void *));
 static void copyArray(void **, void **, int);
-
+static int compareVPW(void *, void *);
 // Bottom up implementation of merge sort
 // Takes in an array of generic values, the size of the array, and a callback function to compare the generic type stored in the array
 
@@ -90,6 +97,7 @@ void BFS(FILE *fp, DA **adjList, int n) {
             while (sizeQUEUE(vertexQueue) > 0) {
                 int levelNodes = sizeQUEUE(vertexQueue);
                 fprintf(fp, "%d: ", level);
+                DA *VPWDA = newDA(0);
                 while (levelNodes > 0) {
                     int s = getINTEGER(dequeue(vertexQueue)); 
                     if (level == 0) {
@@ -98,10 +106,12 @@ void BFS(FILE *fp, DA **adjList, int n) {
                     else {
                         int parent = getINTEGER(dequeue(parentQueue));
                         int weight = getINTEGER(dequeue(weightQueue));
-                        fprintf(fp, "%d(%d)%d", s, parent, weight);
+                        VPW *vpw = newVPW(s, parent, weight);
+                        insertDA(VPWDA, vpw);
+                        /*fprintf(fp, "%d(%d)%d", s, parent, weight);
                         if (levelNodes > 1) {
                             fprintf(fp, " ");
-                        }
+                        }*/
                         totalWeight += weight;  
                     }
                     for (int j = 0; j < sizeDA(adjList[s]); j++) {
@@ -114,9 +124,19 @@ void BFS(FILE *fp, DA **adjList, int n) {
                             enqueue(parentQueue, newINTEGER(s));
                             enqueue(weightQueue, newINTEGER(weight));
                         }
-                        
+
                     }
                     levelNodes--;
+                }
+                int vpwArrLen = sizeDA(VPWDA);
+                void **vpwArr = extractDA(VPWDA);
+                mergeSort(vpwArr, vpwArrLen, compareVPW);
+                for (int i = 0; i < vpwArrLen; i++) {
+                    VPW *item = vpwArr[i];
+                    fprintf(fp, "%d(%d)%d", item->vertex, item->parent, item->weight);
+                    if (i < vpwArrLen - 1) {
+                        fprintf(fp, " ");
+                    }
                 }
                 level++;
                 fprintf(fp, "\n");
@@ -124,6 +144,14 @@ void BFS(FILE *fp, DA **adjList, int n) {
             fprintf(fp, "total weight: %llu\n----\n", totalWeight);
         }
     }
+}
+
+static VPW *newVPW(int vertex, int parent, int weight) {
+    VPW *vpw = (VPW *)malloc(sizeof(VPW));
+    vpw->vertex = vertex;
+    vpw->parent = parent;
+    vpw->weight = weight;
+    return vpw;
 }
 
 // Helper function for merge sort
@@ -146,4 +174,10 @@ static void copyArray(void **work, void **arr, int n) {
     for (int i = 0; i < n; i++) {
         arr[i] = work[i];
     }
+}
+
+static int compareVPW(void *a, void *b) {
+    VPW *vpwA = a;
+    VPW *vpwB = b;
+    return vpwA->vertex - vpwB->vertex;
 }
